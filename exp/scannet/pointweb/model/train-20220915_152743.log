@@ -1,0 +1,980 @@
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Loaded JIT 3D CUDA emd
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+[2022-09-15 15:27:50,100 INFO train_PT-2.py line 205 1892023] arch: pointtransformer_seg_repro
+base_lr: 0.001
+batch_size: 16
+batch_size_test: 4
+batch_size_val: 4
+block_size: 1.5
+classes: 21
+data_name: scannet
+data_root: dataset/scannet
+dist_backend: nccl
+dist_url: tcp://localhost:36443
+distributed: True
+epochs: 50
+eval_freq: 1
+evaluate: False
+fea_dim: 6
+ignore_label: 255
+loop: 15
+manual_seed: 7777
+model_path: None
+momentum: 0.9
+multiplier: 0.1
+multiprocessing_distributed: True
+names_path: data/s3dis/s3dis_names.txt
+ngpus_per_node: 4
+num_point: 8192
+print_freq: 10
+rank: 0
+resume: None
+sample_rate: 1.0
+save_folder: None
+save_freq: 1
+save_path: exp/scannet/baseline
+split: val
+start_epoch: 0
+step_epoch: 30
+stride_rate: 0.5
+sync_bn: False
+test_gpu: [0]
+test_list: dataset/s3dis/list/val5.txt
+test_list_full: dataset/s3dis/list/val5_full.txt
+test_workers: 4
+train_gpu: [4, 5, 6, 7]
+use_xyz: True
+voxel_max: 80000
+voxel_size: 0.04
+weight: None
+weight_decay: 0.0001
+workers: 1
+world_size: 4
+[2022-09-15 15:27:50,100 INFO train_PT-2.py line 206 1892023] => creating model ...
+[2022-09-15 15:27:50,101 INFO train_PT-2.py line 207 1892023] Classes: 21
+[2022-09-15 15:27:50,101 INFO train_PT-2.py line 208 1892023] PointTransformerSeg(
+  (PT_model): PointTransformer_model(
+    (enc1): Sequential(
+      (0): TransitionDown(
+        (linear): Linear(in_features=6, out_features=32, bias=False)
+        (bn): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=32, out_features=32, bias=False)
+        (bn1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=32, out_features=32, bias=True)
+          (linear_k): Linear(in_features=32, out_features=32, bias=True)
+          (linear_v): Linear(in_features=32, out_features=32, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=32, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=32, out_features=4, bias=True)
+            (3): BatchNorm1d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=4, out_features=4, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=32, out_features=32, bias=False)
+        (bn3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (enc2): Sequential(
+      (0): TransitionDown(
+        (linear): Linear(in_features=35, out_features=64, bias=False)
+        (pool): MaxPool1d(kernel_size=16, stride=16, padding=0, dilation=1, ceil_mode=False)
+        (bn): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=64, out_features=64, bias=False)
+        (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=64, out_features=64, bias=True)
+          (linear_k): Linear(in_features=64, out_features=64, bias=True)
+          (linear_v): Linear(in_features=64, out_features=64, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=64, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=64, out_features=8, bias=True)
+            (3): BatchNorm1d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=8, out_features=8, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=64, out_features=64, bias=False)
+        (bn3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (2): PointTransformerBlock(
+        (linear1): Linear(in_features=64, out_features=64, bias=False)
+        (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=64, out_features=64, bias=True)
+          (linear_k): Linear(in_features=64, out_features=64, bias=True)
+          (linear_v): Linear(in_features=64, out_features=64, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=64, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=64, out_features=8, bias=True)
+            (3): BatchNorm1d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=8, out_features=8, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=64, out_features=64, bias=False)
+        (bn3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (enc3): Sequential(
+      (0): TransitionDown(
+        (linear): Linear(in_features=67, out_features=128, bias=False)
+        (pool): MaxPool1d(kernel_size=16, stride=16, padding=0, dilation=1, ceil_mode=False)
+        (bn): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=128, out_features=128, bias=False)
+        (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=128, out_features=128, bias=True)
+          (linear_k): Linear(in_features=128, out_features=128, bias=True)
+          (linear_v): Linear(in_features=128, out_features=128, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=128, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=128, out_features=16, bias=True)
+            (3): BatchNorm1d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=16, out_features=16, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=128, out_features=128, bias=False)
+        (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (2): PointTransformerBlock(
+        (linear1): Linear(in_features=128, out_features=128, bias=False)
+        (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=128, out_features=128, bias=True)
+          (linear_k): Linear(in_features=128, out_features=128, bias=True)
+          (linear_v): Linear(in_features=128, out_features=128, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=128, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=128, out_features=16, bias=True)
+            (3): BatchNorm1d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=16, out_features=16, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=128, out_features=128, bias=False)
+        (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (3): PointTransformerBlock(
+        (linear1): Linear(in_features=128, out_features=128, bias=False)
+        (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=128, out_features=128, bias=True)
+          (linear_k): Linear(in_features=128, out_features=128, bias=True)
+          (linear_v): Linear(in_features=128, out_features=128, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=128, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=128, out_features=16, bias=True)
+            (3): BatchNorm1d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=16, out_features=16, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=128, out_features=128, bias=False)
+        (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (enc4): Sequential(
+      (0): TransitionDown(
+        (linear): Linear(in_features=131, out_features=256, bias=False)
+        (pool): MaxPool1d(kernel_size=16, stride=16, padding=0, dilation=1, ceil_mode=False)
+        (bn): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=256, out_features=256, bias=False)
+        (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=256, out_features=256, bias=True)
+          (linear_k): Linear(in_features=256, out_features=256, bias=True)
+          (linear_v): Linear(in_features=256, out_features=256, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=256, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=256, out_features=32, bias=True)
+            (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=32, out_features=32, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=256, out_features=256, bias=False)
+        (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (2): PointTransformerBlock(
+        (linear1): Linear(in_features=256, out_features=256, bias=False)
+        (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=256, out_features=256, bias=True)
+          (linear_k): Linear(in_features=256, out_features=256, bias=True)
+          (linear_v): Linear(in_features=256, out_features=256, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=256, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=256, out_features=32, bias=True)
+            (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=32, out_features=32, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=256, out_features=256, bias=False)
+        (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (3): PointTransformerBlock(
+        (linear1): Linear(in_features=256, out_features=256, bias=False)
+        (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=256, out_features=256, bias=True)
+          (linear_k): Linear(in_features=256, out_features=256, bias=True)
+          (linear_v): Linear(in_features=256, out_features=256, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=256, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=256, out_features=32, bias=True)
+            (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=32, out_features=32, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=256, out_features=256, bias=False)
+        (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (4): PointTransformerBlock(
+        (linear1): Linear(in_features=256, out_features=256, bias=False)
+        (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=256, out_features=256, bias=True)
+          (linear_k): Linear(in_features=256, out_features=256, bias=True)
+          (linear_v): Linear(in_features=256, out_features=256, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=256, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=256, out_features=32, bias=True)
+            (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=32, out_features=32, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=256, out_features=256, bias=False)
+        (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (5): PointTransformerBlock(
+        (linear1): Linear(in_features=256, out_features=256, bias=False)
+        (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=256, out_features=256, bias=True)
+          (linear_k): Linear(in_features=256, out_features=256, bias=True)
+          (linear_v): Linear(in_features=256, out_features=256, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=256, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=256, out_features=32, bias=True)
+            (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=32, out_features=32, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=256, out_features=256, bias=False)
+        (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (enc5): Sequential(
+      (0): TransitionDown(
+        (linear): Linear(in_features=259, out_features=512, bias=False)
+        (pool): MaxPool1d(kernel_size=16, stride=16, padding=0, dilation=1, ceil_mode=False)
+        (bn): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=512, out_features=512, bias=False)
+        (bn1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=512, out_features=512, bias=True)
+          (linear_k): Linear(in_features=512, out_features=512, bias=True)
+          (linear_v): Linear(in_features=512, out_features=512, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=512, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=512, out_features=64, bias=True)
+            (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=512, out_features=512, bias=False)
+        (bn3): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (2): PointTransformerBlock(
+        (linear1): Linear(in_features=512, out_features=512, bias=False)
+        (bn1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=512, out_features=512, bias=True)
+          (linear_k): Linear(in_features=512, out_features=512, bias=True)
+          (linear_v): Linear(in_features=512, out_features=512, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=512, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=512, out_features=64, bias=True)
+            (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=512, out_features=512, bias=False)
+        (bn3): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (dec5): Sequential(
+      (0): TransitionUp(
+        (linear1): Sequential(
+          (0): Linear(in_features=1024, out_features=512, bias=True)
+          (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+        (linear2): Sequential(
+          (0): Linear(in_features=512, out_features=512, bias=True)
+          (1): ReLU(inplace=True)
+        )
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=512, out_features=512, bias=False)
+        (bn1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=512, out_features=512, bias=True)
+          (linear_k): Linear(in_features=512, out_features=512, bias=True)
+          (linear_v): Linear(in_features=512, out_features=512, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=512, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=512, out_features=64, bias=True)
+            (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=64, out_features=64, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=512, out_features=512, bias=False)
+        (bn3): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (dec4): Sequential(
+      (0): TransitionUp(
+        (linear1): Sequential(
+          (0): Linear(in_features=256, out_features=256, bias=True)
+          (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+        (linear2): Sequential(
+          (0): Linear(in_features=512, out_features=256, bias=True)
+          (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=256, out_features=256, bias=False)
+        (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=256, out_features=256, bias=True)
+          (linear_k): Linear(in_features=256, out_features=256, bias=True)
+          (linear_v): Linear(in_features=256, out_features=256, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=256, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=256, out_features=32, bias=True)
+            (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=32, out_features=32, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=256, out_features=256, bias=False)
+        (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (dec3): Sequential(
+      (0): TransitionUp(
+        (linear1): Sequential(
+          (0): Linear(in_features=128, out_features=128, bias=True)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+        (linear2): Sequential(
+          (0): Linear(in_features=256, out_features=128, bias=True)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=128, out_features=128, bias=False)
+        (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=128, out_features=128, bias=True)
+          (linear_k): Linear(in_features=128, out_features=128, bias=True)
+          (linear_v): Linear(in_features=128, out_features=128, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=128, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=128, out_features=16, bias=True)
+            (3): BatchNorm1d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=16, out_features=16, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=128, out_features=128, bias=False)
+        (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (dec2): Sequential(
+      (0): TransitionUp(
+        (linear1): Sequential(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+        (linear2): Sequential(
+          (0): Linear(in_features=128, out_features=64, bias=True)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=64, out_features=64, bias=False)
+        (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=64, out_features=64, bias=True)
+          (linear_k): Linear(in_features=64, out_features=64, bias=True)
+          (linear_v): Linear(in_features=64, out_features=64, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=64, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=64, out_features=8, bias=True)
+            (3): BatchNorm1d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=8, out_features=8, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=64, out_features=64, bias=False)
+        (bn3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (dec1): Sequential(
+      (0): TransitionUp(
+        (linear1): Sequential(
+          (0): Linear(in_features=32, out_features=32, bias=True)
+          (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+        (linear2): Sequential(
+          (0): Linear(in_features=64, out_features=32, bias=True)
+          (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+        )
+      )
+      (1): PointTransformerBlock(
+        (linear1): Linear(in_features=32, out_features=32, bias=False)
+        (bn1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (transformer2): PointTransformerLayer(
+          (linear_q): Linear(in_features=32, out_features=32, bias=True)
+          (linear_k): Linear(in_features=32, out_features=32, bias=True)
+          (linear_v): Linear(in_features=32, out_features=32, bias=True)
+          (linear_p): Sequential(
+            (0): Linear(in_features=3, out_features=3, bias=True)
+            (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU(inplace=True)
+            (3): Linear(in_features=3, out_features=32, bias=True)
+          )
+          (linear_w): Sequential(
+            (0): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=32, out_features=4, bias=True)
+            (3): BatchNorm1d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (4): ReLU(inplace=True)
+            (5): Linear(in_features=4, out_features=4, bias=True)
+          )
+          (softmax): Softmax(dim=1)
+        )
+        (bn2): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (linear3): Linear(in_features=32, out_features=32, bias=False)
+        (bn3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+  )
+  (foldingnet1): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(37, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(38, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (foldingnet2): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(69, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(70, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (foldingnet3): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(133, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(134, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (foldingnet4): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(261, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(262, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (foldingnet5): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(517, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(518, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (m_foldingnet1): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(37, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(38, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (m_foldingnet2): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(69, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(70, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (m_foldingnet3): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(133, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(134, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (m_foldingnet4): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(261, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(262, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+  (m_foldingnet5): Fold(
+    (folding1): Sequential(
+      (0): Conv1d(517, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+    (folding2): Sequential(
+      (0): Conv1d(518, 256, kernel_size=(1,), stride=(1,))
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+      (4): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+    )
+  )
+)
+[2022-09-15 15:27:55,184 INFO train_PT-2.py line 253 1892023] train_data samples: '3060'
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Loaded JIT 3D CUDA emd
+Totally 204 samples in train set.
+Loaded JIT 3D CUDA emd
+Totally 204 samples in train set.
+Loaded JIT 3D CUDA emd
+Totally 204 samples in train set.
+Loaded JIT 3D CUDA emd
+Totally 204 samples in train set.
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/nn/functional.py:652: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /opt/conda/conda-bld/pytorch_1623448265233/work/c10/core/TensorImpl.h:1156.)
+  return torch.max_pool1d(input, kernel_size, stride, padding, dilation, ceil_mode)
+[2022-09-15 15:28:44,161 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][10/191] Data 0.001 (0.704) Batch 3.503 (4.897) Remain 12:58:37 Loss 33.7337 Accuracy 0.0000.
+[2022-09-15 15:29:24,803 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][20/191] Data 0.576 (0.812) Batch 3.762 (4.481) Remain 11:51:40 Loss 28.4541 Accuracy 0.0000.
+[2022-09-15 15:30:06,705 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][30/191] Data 0.001 (0.846) Batch 4.763 (4.384) Remain 11:35:33 Loss 27.6957 Accuracy 0.0000.
+[2022-09-15 15:30:45,413 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][40/191] Data 0.001 (0.635) Batch 4.264 (4.256) Remain 11:14:30 Loss 24.2084 Accuracy 0.0000.
+[2022-09-15 15:31:26,466 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][50/191] Data 4.309 (0.712) Batch 6.873 (4.225) Remain 11:09:02 Loss 21.6374 Accuracy 0.0000.
+[2022-09-15 15:32:02,412 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][60/191] Data 0.752 (0.665) Batch 3.753 (4.120) Remain 10:51:42 Loss 20.6540 Accuracy 0.0000.
+[2022-09-15 15:32:44,328 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][70/191] Data 0.001 (0.697) Batch 2.308 (4.131) Remain 10:52:37 Loss 19.2008 Accuracy 0.0000.
+[2022-09-15 15:33:25,715 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][80/191] Data 0.001 (0.631) Batch 2.595 (4.132) Remain 10:52:05 Loss 18.5455 Accuracy 0.0000.
+[2022-09-15 15:34:03,083 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][90/191] Data 0.001 (0.561) Batch 2.509 (4.088) Remain 10:44:29 Loss 18.7475 Accuracy 0.0000.
+[2022-09-15 15:34:39,616 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][100/191] Data 0.001 (0.505) Batch 2.823 (4.044) Remain 10:36:58 Loss 17.8723 Accuracy 0.0000.
+[2022-09-15 15:35:20,817 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][110/191] Data 0.001 (0.515) Batch 3.648 (4.051) Remain 10:37:22 Loss 17.4291 Accuracy 0.0000.
+[2022-09-15 15:35:55,257 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][120/191] Data 0.001 (0.485) Batch 4.637 (4.001) Remain 10:28:45 Loss 17.8057 Accuracy 0.0000.
+[2022-09-15 15:36:33,557 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][130/191] Data 0.001 (0.482) Batch 5.213 (3.987) Remain 10:26:01 Loss 18.0034 Accuracy 0.0000.
+[2022-09-15 15:37:12,947 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][140/191] Data 0.001 (0.464) Batch 2.467 (3.984) Remain 10:24:49 Loss 17.1163 Accuracy 0.0000.
+[2022-09-15 15:37:51,220 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][150/191] Data 0.001 (0.466) Batch 2.757 (3.974) Remain 10:22:31 Loss 16.2660 Accuracy 0.0000.
+[2022-09-15 15:38:30,799 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][160/191] Data 0.001 (0.437) Batch 3.011 (3.973) Remain 10:21:42 Loss 17.3380 Accuracy 0.0000.
+[2022-09-15 15:39:06,163 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][170/191] Data 0.001 (0.412) Batch 2.702 (3.947) Remain 10:17:01 Loss 16.2383 Accuracy 0.0000.
+[2022-09-15 15:39:44,596 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][180/191] Data 0.000 (0.405) Batch 2.817 (3.941) Remain 10:15:28 Loss 16.0836 Accuracy 0.0000.
+[2022-09-15 15:40:21,652 INFO train_PT-2.py line 411 1892023] Epoch: [1/50][190/191] Data 0.001 (0.384) Batch 3.092 (3.929) Remain 10:12:52 Loss 15.4713 Accuracy 0.0000.
+Loaded JIT 3D CUDA emd
+Loaded JIT 3D CUDA emd
+Loaded JIT 3D CUDA emd
+Loaded JIT 3D CUDA emd
+/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/nn/functional.py:652: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /opt/conda/conda-bld/pytorch_1623448265233/work/c10/core/TensorImpl.h:1156.)
+  return torch.max_pool1d(input, kernel_size, stride, padding, dilation, ceil_mode)
+/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/nn/functional.py:652: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /opt/conda/conda-bld/pytorch_1623448265233/work/c10/core/TensorImpl.h:1156.)
+  return torch.max_pool1d(input, kernel_size, stride, padding, dilation, ceil_mode)
+[2022-09-15 15:40:25,419 INFO train_PT-2.py line 425 1892023] Train result at epoch [1/50]: mIoU/mAcc/allAcc 0.0000/0.0000/0.0000.
+[2022-09-15 15:40:25,422 INFO train_PT-2.py line 305 1892023] Saving checkpoint to: exp/scannet/baseline/model/model_last.pth
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/threading.py", line 926, in _bootstrap_inner
+    self.run()
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/tensorboardX/event_file_writer.py", line 202, in run
+    data = self._queue.get(True, queue_wait_duration)
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/multiprocessing/queues.py", line 108, in get
+    res = self._recv_bytes()
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/multiprocessing/connection.py", line 216, in recv_bytes
+    buf = self._recv_bytes(maxlength)
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/multiprocessing/connection.py", line 407, in _recv_bytes
+    buf = self._recv(4)
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/multiprocessing/connection.py", line 383, in _recv
+    raise EOFError
+EOFError
+
+/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/nn/functional.py:652: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /opt/conda/conda-bld/pytorch_1623448265233/work/c10/core/TensorImpl.h:1156.)
+  return torch.max_pool1d(input, kernel_size, stride, padding, dilation, ceil_mode)
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Traceback (most recent call last):
+  File "tool/train_PT-2.py", line 498, in <module>
+    main()
+  File "tool/train_PT-2.py", line 169, in main
+    mp.spawn(main_worker, nprocs=args.ngpus_per_node, args=(args.ngpus_per_node, args))
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/multiprocessing/spawn.py", line 230, in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method='spawn')
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/multiprocessing/spawn.py", line 188, in start_processes
+    while not context.join():
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/multiprocessing/spawn.py", line 150, in join
+    raise ProcessRaisedException(msg, error_index, failed_process.pid)
+torch.multiprocessing.spawn.ProcessRaisedException: 
+
+-- Process 0 terminated with the following error:
+Traceback (most recent call last):
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/multiprocessing/spawn.py", line 59, in _wrap
+    fn(i, *args)
+  File "/data3/xumingye/Scene_completion_S3DIS_300_LOOP_SD_DD_DiffCompletion_2branch-contrast_CorrectPretraining/tool/train_PT-2.py", line 307, in main_worker
+    'scheduler': scheduler.state_dict(), 'best_iou': best_iou, 'is_best': is_best}, filename)
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/serialization.py", line 376, in save
+    with _open_file_like(f, 'wb') as opened_file:
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/serialization.py", line 230, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/xumingye/anaconda3/envs/PT/lib/python3.7/site-packages/torch/serialization.py", line 211, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'exp/scannet/baseline/model/model_last.pth'
+
+Jitting Chamfer 3D
+Loaded JIT 3D CUDA chamfer distance
+Loaded JIT 3D CUDA emd
+Loaded JIT 3D CUDA emd
