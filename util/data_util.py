@@ -14,6 +14,18 @@ def sa_create(name, var):
     return x
     
 
+def collate_fn_pretrain(batch):
+    org_coord_1, org_feat_1 = list(zip(*batch))
+    offset_org_1, count_org_1 = [], 0
+
+    for item in org_coord_1:
+        count_org_1 += item.shape[0]
+        offset_org_1.append(count_org_1)
+    return  torch.cat(org_coord_1), torch.cat(org_feat_1), torch.IntTensor(offset_org_1)
+
+
+
+
 def collate_fn(batch):
     partial_coord_1, partial_feat_1, org_coord_1, org_feat_1 = list(zip(*batch))
     offset_par_1, count_par_1 = [], 0
@@ -25,10 +37,13 @@ def collate_fn(batch):
     for item in org_coord_1:
         count_org_1 += item.shape[0]
         offset_org_1.append(count_org_1)
-
-
     return torch.cat(partial_coord_1), torch.cat(partial_feat_1), torch.cat(org_coord_1), torch.cat(org_feat_1), \
         torch.IntTensor(offset_par_1),torch.IntTensor(offset_org_1)
+
+
+
+
+
 # def collate_fn(batch):
 #     org_coord, org_feat, org_label, GT_feat, mask_label = list(zip(*batch))
 #     offset, count = [], 0

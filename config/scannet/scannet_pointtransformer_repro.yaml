@@ -1,0 +1,40 @@
+DATA:
+  data_name: scannet
+  data_root: /data3/xumingye/data #/raid/xumingye/data/s3dis/trainval_fullarea
+  classes: 20
+  fea_dim: 6
+  voxel_size: 0.02
+  voxel_max: 120000
+  loop: 6
+
+TRAIN:
+  arch: pointtransformer_seg_repro
+  use_xyz: True
+  sync_bn: False
+  ignore_label: -100
+  train_gpu: [4,5,6,7]
+  workers: 8  # data loader workers
+  batch_size: 16  # batch size for training
+  batch_size_val: 4  # batch size for validation during training, memory and speed tradeoff
+  base_lr: 0.5
+  epochs: 200
+  start_epoch: 0
+  step_epoch: 30
+  multiplier: 0.1
+  momentum: 0.9
+  weight_decay: 0.0001
+  drop_rate: 0.5
+  manual_seed: 7777
+  print_freq: 50
+  save_freq: 1
+  save_path: ./exp/scannet/pointtransformer_repro_scannetpre
+  weight:  ./exp/scannet/baseline/model/model_20.pth # path to initial weight (default: none)
+  resume: #./exp/scannet/pointtransformer_repro_scannetpre/model/model_72.1.pth # path to latest checkpoint (default: none)
+  evaluate: True  # evaluate on validation set, extra gpu memory needed and small batch_size_val is recommend
+  eval_freq: 1
+Distributed:
+  dist_url: tcp://localhost:8888
+  dist_backend: 'nccl'
+  multiprocessing_distributed: True
+  world_size: 1
+  rank: 0

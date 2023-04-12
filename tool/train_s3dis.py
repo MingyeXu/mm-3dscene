@@ -258,11 +258,8 @@ def train(train_loader, model, criterion, optimizer, epoch):
     for i, (coord, feat, target, offset) in enumerate(train_loader):  # (n, 3), (n, c), (n), (b)
         data_time.update(time.time() - end)
         coord, feat, target, offset = coord.cuda(non_blocking=True), feat.cuda(non_blocking=True), target.cuda(non_blocking=True), offset.cuda(non_blocking=True)
-        # print(coord.size())
-        # exit(0)
-        output, target = model([coord, feat, offset],target,i)
-        # if target.shape[-1] == 1:
-        #     target = target[:, 0]  # for cls
+        output= model([coord, feat, offset])
+
         loss = criterion(output, target)
         optimizer.zero_grad()
         loss.backward()

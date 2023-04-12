@@ -10,8 +10,8 @@ config=config/${dataset}/${dataset}_${exp_name}.yaml
 
 mkdir -p ${model_dir}
 now=$(date +"%Y%m%d_%H%M%S")
-cp tool/train_s3dis.sh tool/train_s3dispy ${config} ${exp_dir}
+cp tool/train_scannet.sh tool/train_scannet.py ${config} ${exp_dir}
 export PYTHONWARNINGS='ignore:semaphore_tracker:UserWarning'
 
-$PYTHON tool/train_s3dis.py --config=${config} 2>&1 | tee ${model_dir}/train-$now.log
+$PYTHON tool/train_scannet.py --config=${config} 2>&1 | tee ${model_dir}/train-$now.log
 

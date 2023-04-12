@@ -19,7 +19,7 @@ TRAIN:
   batch_size_val: 4  # batch size for validation during training, memory and speed tradeoff
   base_lr: 0.5
   # base_lr: 0.1
-  epochs: 250
+  epochs: 150
   start_epoch: 0
   step_epoch: 30
   multiplier: 0.1
@@ -30,9 +30,8 @@ TRAIN:
   print_freq: 1
   save_freq: 1
   save_path: ./exp/s3dis/pointtransformer_repro
-  weight:  ./exp/scannet/baseline/model/model_last.pth # path to initial weight (default: none)
-  # weight: /opt/data/private/scene/Scene_completion_baseline3/exp/s3dis/pointtransformer_repro/model/model_best_69.9.pth
-  resume:   ./exp/s3dis/pointtransformer_repro/model/model_0.7049574658175316_71.85.pth # path to latest checkpoint (default: none)
+  weight:  ./exp/s3dis/pretrain/model/model_last.pth # path to initial weight (default: none) 
+  resume:  #./exp/s3dis/pointtransformer_repro/model/model_0.7049574658175316_71.9.pth # path to latest checkpoint (default: none)
   evaluate: True  # evaluate on validation set, extra gpu memory needed and small batch_size_val is recommend
   eval_freq: 1
 Distributed:

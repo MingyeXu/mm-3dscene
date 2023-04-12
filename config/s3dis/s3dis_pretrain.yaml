@@ -1,12 +1,7 @@
 DATA:
-  data_name: scannet
-  data_root: dataset/scannet
-  classes: 21
+  data_name: s3dis
+  data_root: ../data/s3dis/trainval_fullarea
   # fea_dim: 3  # point feature dimension
-  block_size: 1.5
-  stride_rate: 0.5
-  sample_rate: 1.0
-  num_point: 8192  # point number [default: 8192]
   fea_dim: 6
   voxel_size: 0.04
   voxel_max: 80000
@@ -32,7 +27,7 @@ TRAIN:
   manual_seed: 7777
   print_freq: 10
   save_freq: 1
-  save_path: exp/scannet/baseline
+  save_path: exp/s3dis/pretrain
   weight:  # path to initial weight (default: none)
   resume:  # path to latest checkpoint (default: none)
   evaluate: False  # evaluate on validation set, extra gpu memory needed and small batch_size_val is recommend
@@ -46,13 +41,4 @@ Distributed:
   world_size: 1
   rank: 0
 
-TEST:
-  test_list: dataset/s3dis/list/val5.txt
-  test_list_full: dataset/s3dis/list/val5_full.txt
-  split: val  # split in [train, val and test]
-  test_gpu: [0]
-  test_workers: 4
-  batch_size_test: 4
-  model_path: None
-  save_folder:
-  names_path: data/s3dis/s3dis_names.txt
+

@@ -54,7 +54,7 @@ def main():
     logger.info("Classes: {}".format(args.classes))
     os.environ["CUDA_VISIBLE_DEVICES"] = ','.join(str(x) for x in args.test_gpu)
     if args.arch == 'pointtransformer_seg_repro':
-        from model.pointtransformer.pointtransformer_seg_pretrain2branch import pointtransformer_seg_repro as Model
+        from model.pointtransformer.pointtransformer_downstream_seg import pointtransformer_seg_repro as Model
     else:
         raise Exception('architecture not supported yet'.format(args.arch))
     model = Model(c=args.fea_dim, k=args.classes).cuda()
