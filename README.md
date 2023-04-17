@@ -12,7 +12,7 @@ We provide the scene data of ScanNet and S3DIS. The download link is XXX
 
 For detection, follow the [README](https://github.com/MingyeXu/mm-3dscene/detection/README.md) under the `detection` folder.
 
-For segmentation, follow the [README](https://github.com/MingyeXu/mm-3dscene/segmentation/README.md) under the `segmentation` folder.
+For segmentation, follow the [README](https://github.com/MingyeXu/mm-3dscene/blob/main/segmentation/README.md) under the `segmentation` folder.
 
 
 ## References
