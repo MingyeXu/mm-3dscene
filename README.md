@@ -31,9 +31,5 @@ If you use this code, please cite [MM-3DScene](https://arxiv.org/pdf/2212.099484
 
 We include the following libraries and algorithms:  
 [1] [CD](https://github.com/ThibaultGROUEIX/ChamferDistancePytorch)  
-<<<<<<< HEAD
 [2] [PointTransformer](https://github.com/POSTECH-CVLab/point-transformer)   
-=======
-[2] [PointTransformer](https://github.com/POSTECH-CVLab/point-transformer)
->>>>>>> e6940b3dca57ae38f368bbae00f913ac738397bd
 [3] [VoteNet](https://github.com/facebookresearch/votenet)
