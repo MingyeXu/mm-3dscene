@@ -121,37 +121,18 @@ class ScanNet(Dataset):
         org_data = SA.attach("shm://{}".format(self.scan_names[data_idx])).copy()
         org_coord, org_feat, org_label = org_data[:,:3],org_data[:,3:6],org_data[:,6]
         org_label = remapper[org_label.astype(int)]
-        # print('before:',np.max(org_feat))
-        # print('before:',np.min(org_feat))
-        # print('org_feat0',org_feat.shape)
+
         org_coord, org_feat, org_label, GT_feat = data_prepare(org_coord, org_feat, org_label, self.split, self.voxel_size, self.voxel_max, self.transform, self.shuffle_index)
-
-        Croped_scene = self.scene_crop(org_coord, org_feat, org_label, GT_feat)
-        if Croped_scene[0].shape[0]<512:
-            org_coord_1, org_feat_1, org_label_1, GT_feat_1 = org_coord, org_feat, org_label, GT_feat
+        if self.split=='train':
+            Croped_scene = self.scene_crop(org_coord, org_feat, org_label, GT_feat)
+            if Croped_scene[0].shape[0]<512:
+                org_coord_1, org_feat_1, org_label_1, GT_feat_1 = org_coord, org_feat, org_label, GT_feat
+            else:
+                org_coord_1, org_feat_1, org_label_1, GT_feat_1 = Croped_scene
+            return  org_coord_1, org_feat_1, org_label_1
         else:
-            org_coord_1, org_feat_1, org_label_1, GT_feat_1 = Croped_scene
+            return org_coord, org_feat, org_label
 
-        # partial_coord_1, partial_feat_1, partial_label_1, crop_coord_1, crop_feat_1, crop_label_1,partial_feat_GT_1,crop_feat_GT_1 = self.random_crop(org_coord_1, org_feat_1, org_label_1,GT_feat_1)
-
-        return  org_coord_1, org_feat_1, org_label_1
-
-
-    # def __getitem__(self, idx):
-    #     data_idx = self.data_idx[idx % len(self.data_idx)]
-    #     org_data = SA.attach("shm://{}".format(self.scan_names[data_idx])).copy()
-    #     org_coord, org_feat, org_label = org_data[:,:3],org_data[:,3:6],org_data[:,6]
-    #     org_coord, org_feat, org_label, GT_feat = data_prepare(org_coord, org_feat, org_label, self.split, self.voxel_size, self.voxel_max, self.transform, self.shuffle_index)
-
-    #     Croped_scene = self.scene_crop(org_coord, org_feat, org_label, GT_feat)
-    #     if Croped_scene[0].shape[0]<512:
-    #         org_coord_1, org_feat_1, org_label_1, GT_feat_1 = org_coord, org_feat, org_label, GT_feat
-    #     else:
-    #         org_coord_1, org_feat_1, org_label_1, GT_feat_1 = Croped_scene
-
-    #     # partial_coord_1, partial_feat_1, partial_label_1, crop_coord_1, crop_feat_1, crop_label_1,partial_feat_GT_1,crop_feat_GT_1 = self.random_crop(org_coord_1, org_feat_1, org_label_1,GT_feat_1)
-
-    #     return  org_coord_1, org_feat_1, org_label_1
 
     def __len__(self):
         return len(self.data_idx)*self.loop
