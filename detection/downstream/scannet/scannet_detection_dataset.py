@@ -12,11 +12,10 @@ import os
 import sys
 import numpy as np
 from torch.utils.data import Dataset
-BASE_DIR = os.path.dirname('os.path.abspath(__file__)')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 sys.path.append(ROOT_DIR)
 sys.path.append(os.path.join(ROOT_DIR, 'utils'))
-
 import pc_util
 from model_util_scannet import rotate_aligned_boxes
 
@@ -29,8 +28,8 @@ class ScannetDetectionDataset(Dataset):
        
     def __init__(self, split_set='train', num_points=20000,
         use_color=False, use_height=False, augment=False):
-        DATA_DIR = '/data/mutian/scannet/'
-        self.data_path = os.path.join(DATA_DIR, 'scannet_train_detection_data_pretrain')
+        DATA_DIR = 'xxx'  # edit here
+        self.data_path = os.path.join(DATA_DIR, 'scannet_train_detection_data_downstream')
         all_scan_names = list(set([os.path.basename(x)[0:12] \
             for x in os.listdir(self.data_path) if x.startswith('scene')]))
         if split_set=='all':            
@@ -86,10 +85,8 @@ class ScannetDetectionDataset(Dataset):
             pcl_color = mesh_vertices[:,3:6]
         else:
             point_cloud = mesh_vertices[:,0:6] 
-            point_cloud[:,3:] = (point_cloud[:,3:]-MEAN_COLOR_RGB)/256.0
-            # print(point_cloud.shape)
-            # exit(0)
             pcl_color = mesh_vertices[:,3:6]
+            point_cloud[:,3:] = (point_cloud[:,3:]-MEAN_COLOR_RGB)/256.0
         
         if self.use_height:
             floor_height = np.percentile(point_cloud[:,2],0.99)
@@ -104,12 +101,8 @@ class ScannetDetectionDataset(Dataset):
         size_classes = np.zeros((MAX_NUM_OBJ,))
         size_residuals = np.zeros((MAX_NUM_OBJ, 3))
         
-
-        # print('XXX',point_cloud.shape)
         point_cloud, choices = pc_util.random_sampling(point_cloud,
-            self.num_points, return_choices=True) 
-        # print(point_cloud.shape)
-        # exit(0)       
+            self.num_points, return_choices=True)        
         instance_labels = instance_labels[choices]
         semantic_labels = semantic_labels[choices]
         
@@ -155,24 +148,23 @@ class ScannetDetectionDataset(Dataset):
                 point_votes_mask[ind] = 1.0
         point_votes = np.tile(point_votes, (1, 3)) # make 3 votes identical 
         
-        # print(instance_bboxes)
-        # class_ind = [np.where(DC.nyu40ids == int(x))[0][0] for x in instance_bboxes[:,-1]]   
-        # # NOTE: set size class as semantic class. Consider use size2class.
-        # size_classes[0:instance_bboxes.shape[0]] = class_ind
-        # size_residuals[0:instance_bboxes.shape[0], :] = \
-        #     target_bboxes[0:instance_bboxes.shape[0], 3:6] - DC.mean_size_arr[class_ind,:]
+        class_ind = [np.where(DC.nyu40ids == x)[0][0] for x in instance_bboxes[:,-1]]
+        # NOTE: set size class as semantic class. Consider use size2class.
+        size_classes[0:instance_bboxes.shape[0]] = np.array(class_ind)
+        size_residuals[0:instance_bboxes.shape[0], :] = \
+            target_bboxes[0:instance_bboxes.shape[0], 3:6] - DC.mean_size_arr[class_ind,:]
             
         ret_dict = {}
         ret_dict['point_clouds'] = point_cloud.astype(np.float32)
         ret_dict['center_label'] = target_bboxes.astype(np.float32)[:,0:3]
         ret_dict['heading_class_label'] = angle_classes.astype(np.int64)
         ret_dict['heading_residual_label'] = angle_residuals.astype(np.float32)
-        # ret_dict['size_class_label'] = size_classes.astype(np.int64)
-        # ret_dict['size_residual_label'] = size_residuals.astype(np.float32)
-        # target_bboxes_semcls = np.zeros((MAX_NUM_OBJ))                                
-        # target_bboxes_semcls[0:instance_bboxes.shape[0]] = \
-        #     [DC.nyu40id2class[x] for x in instance_bboxes[:,-1][0:instance_bboxes.shape[0]]]                
-        # ret_dict['sem_cls_label'] = target_bboxes_semcls.astype(np.int64)
+        ret_dict['size_class_label'] = size_classes.astype(np.int64)
+        ret_dict['size_residual_label'] = size_residuals.astype(np.float32)
+        target_bboxes_semcls = np.zeros((MAX_NUM_OBJ))                                
+        target_bboxes_semcls[0:instance_bboxes.shape[0]] = \
+            [DC.nyu40id2class[x] for x in instance_bboxes[:,-1][0:instance_bboxes.shape[0]]]                
+        ret_dict['sem_cls_label'] = target_bboxes_semcls.astype(np.int64)
         ret_dict['box_label_mask'] = target_bboxes_mask.astype(np.float32)
         ret_dict['vote_label'] = point_votes.astype(np.float32)
         ret_dict['vote_label_mask'] = point_votes_mask.astype(np.int64)

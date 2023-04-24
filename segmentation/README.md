@@ -18,7 +18,7 @@ Then install Dependecies
 ```bash
 conda install pytorch=1.9.0 torchvision cudatoolkit=11.1 -c pytorch -c nvidia -y
 conda install -c anaconda h5py pyyaml -y
-conda install -c conda-forge sharedarray tensorboardx -y
+conda install -c conda-forge sharedarray tensorboardx trimesh -y
 ```
 
 
@@ -41,7 +41,7 @@ For ScanNet, follow the [README](/detection/pretrain/scannet/README.md) under th
 ## Usage
 
 ### Pretraining on s3dis
-
+The pretrained model for s3dis can be found from [here](https://drive.google.com/file/d/15La5m64in2Pi70q0eEbi9XUL24NxA6GL/view?usp=share_link)
 - cd segmentation
 - sh tool/pretrain.sh s3dis
 
@@ -51,7 +51,7 @@ For ScanNet, follow the [README](/detection/pretrain/scannet/README.md) under th
 
 
 ## test
-The best model on s3dis can be found from [here]()
+The best model on s3dis can be found from [here](https://drive.google.com/file/d/1eC_zztdnBUqMq7xvGLXUfS36-kCY5wt5/view?usp=share_link)
 - sh tool/test_s3dis.sh s3dis pointtransformer_repro
 
 

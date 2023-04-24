@@ -20,11 +20,9 @@ class ScanNet(Dataset):
         
         # append scannet to shm
         # get data_name
-        self.data_path = os.path.join(data_root, 'scannet_train_detection_data')
+        self.data_path = os.path.join(data_root, 'scannet_train_data')
         all_scan_names = list(set([os.path.basename(x)[0:12] \
             for x in os.listdir(self.data_path) if x.startswith('scene')]))
-
-
 
         if split =='all':         
             self.scan_names = all_scan_names
@@ -42,17 +40,7 @@ class ScanNet(Dataset):
         else:
             print('illegal split name')
 
-        # get data
-        # for scan in self.scan_names:            
-        #     if not os.path.exists("/dev/shm/{}".format(scan)):
-        #         vert_path = os.path.join(self.data_path, scan + '_vert.npy')
-        #         sem_path = os.path.join(self.data_path, scan + '_sem_label.npy')
-        #         ins_path = os.path.join(self.data_path, scan + '_ins_label.npy')
-        #         vert = np.load(vert_path)  # xyzrgb, N*6
-        #         sem = np.load(sem_path)  # N,
-        #         ins = np.load(ins_path)  # N,
-        #         data = np.concatenate((vert, np.expand_dims(sem, axis=-1), np.expand_dims(ins, axis=-1)), axis=-1)  # npy, n*8
-        #         sa_create("shm://{}".format(scan), data)
+
 
 
 
@@ -60,6 +48,7 @@ class ScanNet(Dataset):
 
 
         print("Totally {} samples in {} set.".format(len(self.data_idx), split))
+
     def scene_crop(self, org_coord, org_feat, org_label, GT_feat):
         LEN_X = torch.max(org_coord[:,0]) - torch.min(org_coord[:,0])
         LEN_Y = torch.max(org_coord[:,1]) - torch.min(org_coord[:,1])
@@ -83,38 +72,6 @@ class ScanNet(Dataset):
         return croped_coord, croped_feat, croped_label, croped_feat_GT
 
     
-    def scene_crop_mutian(org_coord, org_feat, org_label, GT_feat, KEEP_RATIO, crop_dim):
-        LEN_X = np.max(org_coord[:,0]) - np.min(org_coord[:,0])
-        LEN_Y = np.max(org_coord[:,1]) - np.min(org_coord[:,1])
-        LEN_Z = np.max(org_coord[:,2]) - np.min(org_coord[:,2])
-
-        CROP_X = LEN_X * (KEEP_RATIO/2)
-        CROP_Y = LEN_Y * (KEEP_RATIO/2)
-        CROP_Z = LEN_Z * (KEEP_RATIO/2)
-
-        # make sure the seleted area will not exceed the actual scene:
-        if crop_dim == 0:
-            center_x = random_range(np.min(org_coord[:,0])+CROP_X, np.max(org_coord[:,0])-CROP_X)
-        elif crop_dim == 1:
-            center_y = random_range(np.min(org_coord[:,1])+CROP_Y, np.max(org_coord[:,1])-CROP_Y)
-        elif crop_dim == 2:
-            center_z = random_range(np.min(org_coord[:,2])+CROP_Z, np.max(org_coord[:,2])-CROP_Z)
-        else:
-            raise Exception('cropped_dim not supported')
-
-        if crop_dim == 0:
-            save_ids = np.where((org_coord[:,0]<center_x+CROP_X) & (org_coord[:,0]>center_x-CROP_X))[0]
-        elif crop_dim == 1:   
-            save_ids = np.where((org_coord[:,1]<center_y+CROP_Y) & (org_coord[:,1]>center_y-CROP_Y))[0]
-        elif crop_dim == 2:
-            save_ids = np.where((org_coord[:,2]<center_z+CROP_Z) & (org_coord[:,2]>center_z-CROP_Z))[0]
-        croped_coord = org_coord[save_ids]
-        croped_feat = org_feat[save_ids]
-        croped_feat_GT = GT_feat[save_ids]
-        croped_label = org_label[save_ids]
-        return croped_coord, croped_feat, croped_label, croped_feat_GT
-
-
 
     def __getitem__(self, idx):
         data_idx = self.data_idx[idx % len(self.data_idx)]
