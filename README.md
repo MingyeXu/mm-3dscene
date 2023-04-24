@@ -1,12 +1,6 @@
 # MM-3DScene: 3D Scene Understanding by Customizing Masked Modeling with Informative-Preserved Reconstruction and Self-Distilled Consistency
 
-## Installation
 
-Follow the [installation.md](installation.md) to install all required packages and environments.
-
-## Data Preparation
-
-We provide the scene data of ScanNet and S3DIS. The download link is XXX
 
 ## Training and evaluating
 
