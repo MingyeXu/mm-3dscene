@@ -32,9 +32,9 @@ cd ../../..
 
 
 ## Data preparation
-For S3DIS, download the [dateset](https://drive.google.com/uc?export=download&id=1KUxWagmEWnvMhEb4FRwq2Mj0aa3U3xUf) and change the 'data_root' in ./config/s3dis/s3dis_pretrain.yaml
+For S3DIS, download the [dateset](https://drive.google.com/uc?export=download&id=1KUxWagmEWnvMhEb4FRwq2Mj0aa3U3xUf) and change the `data_root` in ./config/s3dis/s3dis_pretrain.yaml
 
-For ScanNet,  download [ScanNet v2](https://github.com/ScanNet/ScanNet) dataset and extract point clouds and semantic segmentation annotations with 'python batch_load_scannet_data.py'.
+For ScanNet,  download [ScanNet v2](https://github.com/ScanNet/ScanNet) dataset and extract point clouds and semantic segmentation annotations with `python batch_load_scannet_data.py`.
 
 
 
