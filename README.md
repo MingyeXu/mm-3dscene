@@ -43,7 +43,7 @@ If you use this code, please consider citing:
 You are welcome to send pull requests or share some ideas with us. Contact information: Mingye Xu () or Mutian Xu (mutianxu@link.cuhk.edu.cn).
 
 
-## [Acknowledgement]
+## Acknowledgement
 
 We include the following libraries and algorithms:  
 [1] [CD](https://github.com/ThibaultGROUEIX/ChamferDistancePytorch)  
