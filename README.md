@@ -40,7 +40,7 @@ If you use this code, please consider citing:
 
 ## Contact
 
-You are welcome to send pull requests or share some ideas with us. Contact information: Mingye Xu () or Mutian Xu (mutianxu@link.cuhk.edu.cn).
+You are welcome to send pull requests or share some ideas with us. Contact information: Mingye Xu (my.xu@siat.ac.cn) or Mutian Xu (mutianxu@link.cuhk.edu.cn).
 
 
 ## Acknowledgement
