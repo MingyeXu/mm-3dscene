@@ -65,7 +65,7 @@ class DatasetPretrain(Dataset):
                     ins = np.load(ins_path)  # N,
                     data = np.concatenate((vert, np.expand_dims(sem, axis=-1), np.expand_dims(ins, axis=-1)), axis=-1)  # npy, n*8
                     sa_create("shm://{}".format(scan), data)
-                self.scene_names.append(item)
+                self.scene_names.append(scan)
 
             # self.data_idx = np.arange(len(self.scan_names))
             print("Totally {} samples in {} set.".format(len(self.scene_names), split))
