@@ -43,7 +43,7 @@ class DatasetPretrain(Dataset):
             data_path = os.path.join(data_root, 'scannet_train_detection_data_wNormals')
             all_scan_names = list(set([os.path.basename(x)[0:12] \
                 for x in os.listdir(data_path) if x.startswith('scene')]))
-            split_filenames = os.path.join(scannet_root, 'meta_data',
+            split_filenames = os.path.join(data_path, 'meta_data',
                 'scannetv2_{}.txt'.format('train'))
             with open(split_filenames, 'r') as f:
                 self.scan_names = f.read().splitlines()   
@@ -57,9 +57,9 @@ class DatasetPretrain(Dataset):
             # get data
             for scan in self.scan_names:            
                 if not os.path.exists("/dev/shm/{}".format(scan)):
-                    vert_path = os.path.join(self.data_path, scan + '_vert.npy')
-                    sem_path = os.path.join(self.data_path, scan + '_sem_label.npy')
-                    ins_path = os.path.join(self.data_path, scan + '_ins_label.npy')
+                    vert_path = os.path.join(data_path, scan + '_vert.npy')
+                    sem_path = os.path.join(data_path, scan + '_sem_label.npy')
+                    ins_path = os.path.join(data_path, scan + '_ins_label.npy')
                     vert = np.load(vert_path)  # xyzrgb, N*6
                     sem = np.load(sem_path)  # N,
                     ins = np.load(ins_path)  # N,
